@@ -456,7 +456,7 @@ class Session(botocore.session.Session):
         """Create a botocore client."""
         # Localstack doesn't use the virtual host addressing style.
         config = botocore.config.Config(s3={"addressing_style": "path"})
-        callargs = inspect.getcallargs(_original_create_client, self, *args, **kwargs)
+        callargs = inspect.getcallargs(inspect.unwrap(_original_create_client), self, *args, **kwargs)
         if callargs.get("config"):
             config = callargs["config"].merge(config)
         callargs["config"] = config
